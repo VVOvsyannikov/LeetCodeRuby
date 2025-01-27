@@ -14,5 +14,5 @@ def simplify_path(path)
     stack << word
   end
 
-  '/' + stack.join('/')
+  "/#{stack.join('/')}"
 end
