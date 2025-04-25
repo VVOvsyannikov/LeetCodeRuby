@@ -2,23 +2,25 @@
 
 def num_islands(grid)
   counter = 0
+  i = grid.size
+  j = grid.first.size
 
-  grid.each_with_index do |row, y|
-    row.each_with_index do |val, x|
-      next unless val == '1'
+  i.times do |y|
+    j.times do |x|
+      next unless grid[y][x] == '1'
 
       stack = [[y, x]]
       counter += 1
 
       while stack.size.positive?
-        v = stack.pop
-        grid[v.first][v.last] = '0'
+        r, c = stack.pop
+        grid[r][c] = '0'
 
-        neibhors = [[v.first - 1, v.last], [v.first + 1, v.last], [v.first, v.last - 1], [v.first, v.last + 1]]
-        neibhors.each do |n_y, n_x|
-          next if n_y.negative? || n_x.negative? || n_y >= grid.size || n_x >= row.size || grid[n_y][n_x] == '0'
+        neibhors = [[r - 1, c], [r + 1, c], [r, c - 1], [r, c + 1]]
+        neibhors.each do |dy, dx|
+          next if dy.negative? || dx.negative? || dy >= i || dx >= j || grid[dy][dx] == '0'
 
-          stack << [n_y, n_x]
+          stack << [dy, dx]
         end
       end
     end
