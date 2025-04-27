@@ -9,25 +9,21 @@ def max_area_of_island(grid)
     j.times do |x|
       next if grid[y][x].zero?
 
-      counter = 1
-      stack = [[y, x]]
-      grid[y][x] = 0
-
-      until stack.empty?
-        r, c = stack.pop
-        n = [[r + 1, c], [r - 1, c], [r, c + 1], [r, c - 1]]
-        n.each do |dy, dx|
-          next if dy.negative? || dx.negative? || dy >= i || dx >= j || grid[dy][dx].zero?
-
-          stack << [dy, dx]
-          grid[dy][dx] = 0
-          counter += 1
-        end
-      end
-
-      result = [result, counter].max
+      result = [dfs(grid, y, x), result].max
     end
   end
 
+  result
+end
+
+def dfs(grid, y, x)
+  return 0 if y.negative? || x.negative? || y >= grid.size || x >= grid.first.size || grid[y][x].zero?
+
+  result = 1
+  grid[y][x] = 0
+  result += dfs(grid, y - 1, x)
+  result += dfs(grid, y + 1, x)
+  result += dfs(grid, y, x - 1)
+  result += dfs(grid, y, x + 1)
   result
 end
