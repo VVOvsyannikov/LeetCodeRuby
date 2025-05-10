@@ -4,39 +4,34 @@ def oranges_rotting(grid)
   i = grid.size
   j = grid.first.size
   queue = []
-  rotten = Set.new
-  fresh = Set.new
+  fresh_count = 0
+  minutes = 0
 
   i.times do |y|
     j.times do |x|
-      fresh.add([y, x]) if grid[y][x] == 1
+      fresh_count += 1 if grid[y][x] == 1
 
-      if grid[y][x] == 2
-        queue.unshift([y, x, 0])
-        rotten.add([y, x])
-      end
+      queue.unshift([y, x, minutes]) if grid[y][x] == 2
     end
   end
 
-  return 0 if fresh.empty?
+  return 0 if fresh_count.zero?
   return -1 if queue.empty?
 
-  result = 0
-
   until queue.empty?
-    r, c, time = queue.pop
-    result = [result, time].max
+    r, c, minutes = queue.pop
 
     neibhors = [[r - 1, c], [r + 1, c], [r, c - 1], [r, c + 1]]
     neibhors.each do |dy, dx|
-      next if dy.negative? || dx.negative? || dy >= i || dx >= j || rotten.include?([dy, dx]) || grid[dy][dx].zero?
+      next if dy.negative? || dx.negative? || dy >= i || dx >= j || grid[dy][dx] == 2 || (grid[dy][dx]).zero?
 
-      queue.unshift([dy, dx, time + 1])
-      rotten.add([dy, dx])
-      fresh.delete([dy, dx])
+      queue.unshift([dy, dx, minutes + 1])
+      grid[dy][dx] = 2
+      fresh_count -= 1
     end
   end
-  return -1 unless fresh.empty?
 
-  result
+  return -1 unless fresh_count <= 0
+
+  minutes
 end
