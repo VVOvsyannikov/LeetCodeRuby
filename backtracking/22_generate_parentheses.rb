@@ -1,17 +1,14 @@
 # frozen_string_literal: true
 
 def generate_parenthesis(n)
-  generate(n, 0, 0, '', [])
-end
+  generate = lambda do |opened, closed, memo|
+    return [memo] if memo.size == n * 2
 
-def generate(n, opened, closed, memo, result)
-  if memo.size == n * 2
-    result << memo.dup
-    return
+    res = []
+    res += generate.call(opened + 1, closed, "#{memo}(") if opened < n
+    res += generate.call(opened, closed + 1, "#{memo})") if closed < opened
+    res
   end
 
-  generate(n, opened + 1, closed, "#{memo}(", result) if opened < n
-  generate(n, opened, closed + 1, "#{memo})", result) if closed < opened
-
-  result
+  generate.call(0, 0, '')
 end
