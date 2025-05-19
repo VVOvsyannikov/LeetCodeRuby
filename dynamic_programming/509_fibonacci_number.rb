@@ -6,7 +6,10 @@ def fib(n)
 
   first = 0
   second = 1
-  (1...n).each do |_i|
+  i = 1
+
+  while i < n
+    i += 1
     first, second = second, first + second
   end
 
