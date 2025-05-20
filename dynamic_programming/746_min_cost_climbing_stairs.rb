@@ -25,3 +25,14 @@ def min_cost_climbing_stairs_dp(cost)
 
   dp[n]
 end
+
+def min_cost_climbing_stairs(cost)
+  first = 0
+  second = 0
+
+  (2...cost.size + 1).each do |i|
+    first, second = second, [second + cost[i - 1], first + cost[i - 2]].min
+  end
+
+  second
+end
