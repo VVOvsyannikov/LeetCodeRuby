@@ -25,3 +25,17 @@ def unique_paths_II(m, n)
 
   dp[m - 1][n - 1]
 end
+
+def unique_paths_III(m, n)
+  dp = Array.new(n, 1)
+
+  (1...m).each do |_y|
+    prev = 1
+    (1...n).each do |x|
+      dp[x] = prev + dp[x]
+      prev = dp[x]
+    end
+  end
+
+  dp[n - 1]
+end
